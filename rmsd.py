@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import sys
 import os
-from scipy.stats import gaussian_kde  # ← añadido para suavizar histogramas
+from scipy.stats import gaussian_kde  # Para suavizar histogramas
 
 def smooth_gaussian(data, degree=35):
     """Suavizado extremo tipo gaussiano para curvas RMSD."""
@@ -34,10 +34,24 @@ if len(sys.argv) < 2:
     sys.exit(1)
 
 archivos = sys.argv[1:]
-colors = plt.cm.tab10.colors  # ← paleta uniforme y reproducible
 
-fig = plt.figure(figsize=(10, 6))
-gs = fig.add_gridspec(1, 2, width_ratios=[4, 1], wspace=0.05)
+# Colores para superposición y accesibilidad
+colors = [
+    (31/255, 119/255, 180/255),  # Azul profundo
+    (214/255, 39/255, 40/255),   # Rojo carmín    
+    (148/255, 103/255, 189/255), # Púrpura oscuro
+    (140/255, 86/255, 75/255),   # Marrón tierra
+    (23/255, 190/255, 207/255),  # Cian claro
+    (44/255, 160/255, 44/255),   # Verde vibrante
+    (255/255, 127/255, 14/255),  # Naranja intenso
+    (227/255, 119/255, 194/255), # Rosa fuerte
+    (127/255, 127/255, 127/255), # Gris medio
+    (188/255, 189/255, 34/255)   # Amarillo dorado
+]
+
+# Uso de constrained_layout para evitar conflictos con tight_layout
+fig = plt.figure(figsize=(10, 6), constrained_layout=True)
+gs = fig.add_gridspec(1, 2, width_ratios=[4, 1])
 ax_main = fig.add_subplot(gs[0])
 ax_hist = fig.add_subplot(gs[1], sharey=ax_main)
 
@@ -51,7 +65,7 @@ for i, archivo in enumerate(archivos):
     tiempo_ns = tiempo_ps / 1000.0
     rmsd_nm = get_column(data, 1)
     rmsd_angstrom = rmsd_nm * 10.0
-    color = colors[i % len(colors)]  # ← uso uniforme
+    color = colors[i % len(colors)]  # uso cíclico de paleta optimizada
 
     # Curva original con transparencia
     ax_main.plot(tiempo_ns, rmsd_angstrom, color=color, alpha=0.3)
@@ -80,6 +94,5 @@ ax_hist.set_xlabel("Frecuencia", fontsize=12)
 ax_hist.set_xlim(left=0)
 ax_hist.tick_params(labelleft=False)
 
-plt.tight_layout()
 plt.show()
 

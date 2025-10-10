@@ -5,6 +5,7 @@ import numpy as np
 import os
 
 def cargar_gyrate(path, columna=1):
+    """Carga datos de radio de giro desde archivo .xvg, ignorando encabezados de GROMACS."""
     x, y = [], []
     with open(path, 'r') as f:
         for line in f:
@@ -22,6 +23,7 @@ def cargar_gyrate(path, columna=1):
     return np.array(x), np.array(y)
 
 def suavizar_curva(x, y, degree=35):
+    """Aplica suavizado gaussiano a la curva."""
     window = degree * 2 - 1
     if len(y) < window:
         return None, None
@@ -38,9 +40,22 @@ def main():
         sys.exit(1)
 
     archivos = sys.argv[1:]
-    colores = plt.cm.tab10.colors
 
-    plt.figure(figsize=(10, 6))
+    # Colores para superposición y accesibilidad
+    colores = [
+        (31/255, 119/255, 180/255),  # Azul profundo
+        (214/255, 39/255, 40/255),   # Rojo carmín    
+        (148/255, 103/255, 189/255), # Púrpura oscuro
+        (140/255, 86/255, 75/255),   # Marrón tierra
+        (23/255, 190/255, 207/255),  # Cian claro
+        (44/255, 160/255, 44/255),   # Verde vibrante
+        (255/255, 127/255, 14/255),  # Naranja intenso
+        (227/255, 119/255, 194/255), # Rosa fuerte
+        (127/255, 127/255, 127/255), # Gris medio
+        (188/255, 189/255, 34/255)   # Amarillo dorado
+    ]
+
+    fig = plt.figure(figsize=(10, 6), constrained_layout=True)
     trazado = False
 
     for i, archivo in enumerate(archivos):
@@ -48,7 +63,7 @@ def main():
             print(f"Archivo no encontrado: {archivo}")
             continue
 
-        x, y = cargar_gyrate(archivo, columna=1)  # ← usa columna 1: radio de giro total
+        x, y = cargar_gyrate(archivo, columna=1)
         if len(x) == 0 or len(y) == 0:
             print(f"Archivo vacío o ilegible: {archivo}")
             continue
@@ -56,12 +71,12 @@ def main():
         etiqueta = os.path.splitext(os.path.basename(archivo))[0]
         color = colores[i % len(colores)]
 
-        plt.plot(x, y, label=etiqueta, color=color, alpha=0.4, linewidth=1.5)
+        plt.plot(x, y, label=etiqueta, color=color, alpha=0.2, linewidth=2.0)
         trazado = True
 
         x_suave, y_suave = suavizar_curva(x, y)
         if x_suave is not None and y_suave is not None:
-            plt.plot(x_suave, y_suave, color=color, linewidth=2.2)
+            plt.plot(x_suave, y_suave, color=color, linewidth=2.8)
 
     if not trazado:
         print("No se pudo graficar ningún archivo válido.")
@@ -72,10 +87,8 @@ def main():
     plt.title("Radio de giro durante la simulación", fontsize=14)
     plt.legend()
     plt.grid(True, linestyle='--', alpha=0.5)
-    plt.tight_layout()
     plt.show()
 
 if __name__ == "__main__":
     main()
-
 

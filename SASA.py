@@ -34,7 +34,20 @@ def main():
         sys.exit(1)
 
     archivos = sys.argv[1:]
-    colores = plt.cm.tab10.colors  # Paleta uniforme y reproducible
+
+    # Colores para superposición y accesibilidad
+    colores = [
+        (31/255, 119/255, 180/255),  # Azul profundo
+        (214/255, 39/255, 40/255),   # Rojo carmín    
+        (148/255, 103/255, 189/255), # Púrpura oscuro
+        (140/255, 86/255, 75/255),   # Marrón tierra
+        (23/255, 190/255, 207/255),  # Cian claro
+        (44/255, 160/255, 44/255),   # Verde vibrante
+        (255/255, 127/255, 14/255),  # Naranja intenso
+        (227/255, 119/255, 194/255), # Rosa fuerte
+        (127/255, 127/255, 127/255), # Gris medio
+        (188/255, 189/255, 34/255)   # Amarillo dorado
+    ]
 
     plt.figure(figsize=(10, 6))
     for i, archivo in enumerate(archivos):
@@ -44,17 +57,17 @@ def main():
 
         x, y = cargar_sasa(archivo)
         etiqueta = os.path.splitext(os.path.basename(archivo))[0]
-        color = colores[i % len(colores)]
+        color = colores[i % len(colores)]  # uso cíclico de paleta optimizada
 
-        # Curva original con transparencia al 40%
-        plt.plot(x, y, label=etiqueta, color=color, alpha=0.4, linewidth=1.5)
+        # Curva original con transparencia más tenue y línea más intensa
+        plt.plot(x, y, label=etiqueta, color=color, alpha=0.2, linewidth=1.5)
 
-        # Curva promedio suavizada
+        # Curva promedio suavizada con línea más gruesa
         degree = 35
         if len(y) > degree * 2:
             y_suave = suavizar_curva(y, degree)
             x_suave = x[degree:(-1)*(degree-1)]
-            plt.plot(x_suave, y_suave, color=color, linewidth=2.2)
+            plt.plot(x_suave, y_suave, color=color, linewidth=2.8)
 
     plt.xlabel("Tiempo [ns]", fontsize=12)
     plt.ylabel("SASA [Å²]", fontsize=12)
