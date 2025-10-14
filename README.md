@@ -24,6 +24,23 @@ This script is configured for use with the `gmx_mpi` binary but can be easily ad
 
 where `proteinX.pdb` is any curated structure obtained from the Protein Data Bank.
 
+The script also requires a set of .mdp parameter files to be present in a specific location. These files—ions.mdp, em.mdp, nvt.mdp, npt.mdp, and md.mdp—must be stored in a folder named MDPs, located one directory level above the folder where md.py is executed.
+
+For example:
+```bash
+Código
+project-root/
+├── MDPs/
+│   ├── ions.mdp
+│   ├── em.mdp
+│   ├── nvt.mdp
+│   ├── npt.mdp
+│   └── md.mdp
+└── simulations/
+    └── md.py
+```
+These .mdp files are authored specifically for the simulations of the Gamma variant and wild-type systems over 100 ns, and are located in the Gamma-variant-and-WT-100ns-MD-simulations directory.
+
 The `get_to_center.py` script performs three steps to remove periodic boundary conditions and center the molecule within the simulation box, preventing artificial jumps in RMSD analysis. To use it, simply copy the script into the simulation directory, ensuring the trajectory and topology files are named `md.xtc` and `md.tpr`, respectively. The output will be a new trajectory file named `final.xtc`.
 
 The default centering coordinates are set to `-3 0 0`, but these can be modified as needed depending on the molecule’s position within the box.
