@@ -42,7 +42,7 @@ project-root/
 └── simulations/
     └── md.py
 ```
-These .mdp files are authored specifically for the simulations of the Gamma variant and wild-type systems over 100 ns, and are located in the Gamma-variant-and-WT-100ns-MD-simulations directory.
+These .mdp files are authored specifically for the simulations of the Gamma variant and wild-type systems over 100 ns, and are located in the Gamma-variant-and-WT-100ns-MD-simulations repository.
 
 The `get_to_center.py` script performs three steps to remove periodic boundary conditions and center the molecule within the simulation box, preventing artificial jumps in RMSD analysis. To use it, simply copy the script into the simulation directory, ensuring the trajectory and topology files are named `md.xtc` and `md.tpr`, respectively. The output will be a new trajectory file named `final.xtc`.
 
