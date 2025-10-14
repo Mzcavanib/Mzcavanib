@@ -24,7 +24,7 @@ This script is configured for use with the `gmx_mpi` binary but can be easily ad
 
 where `proteinX.pdb` is any curated structure obtained from the Protein Data Bank.
 
-The script also requires a set of .mdp parameter files to be present in a specific location. These files—ions.mdp, em.mdp, nvt.mdp, npt.mdp, and md.mdp—must be stored in a folder named MDPs, located one directory level above the folder where md.py is executed.
+The script also requires a set of .mdp parameter files to be present in a specific location. These files—ions.mdp, minim.mdp, nvt.mdp, npt.mdp, and md.mdp—must be stored in a folder named MDPs, located one directory level above the folder where md.py is executed.
 
 For example:
 ```bash
@@ -32,7 +32,7 @@ Código
 project-root/
 ├── MDPs/
 │   ├── ions.mdp
-│   ├── em.mdp
+│   ├── minim.mdp
 │   ├── nvt.mdp
 │   ├── npt.mdp
 │   └── md.mdp
