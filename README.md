@@ -4,12 +4,15 @@
 
 I develop programs designed to automate molecular dynamics with GROMACS and the analysis of trajectory results. 
 
-These Python programs are designed to analyze molecular dynamics trajectories generated with GROMACS. They cover four key metrics: RMSD, RMSF, SASA, and radius of gyration. Each script produces color-coded plots and supports the simultaneous analysis of up to 10 datasets. If more datasets are needed, additional color codes can be added manually.
+These Python programs are designed on matplotlib to analyze molecular dynamics trajectories generated with GROMACS. They cover four key metrics: RMSD, RMSF, SASA, and radius of gyration. Each script produces color-coded plots and supports the simultaneous analysis of up to 10 datasets. If more datasets are needed, additional color codes can be added manually.
 
 All scripts are executed using Python 3 from the Linux terminal with a consistent syntax. For example:
 
 ```bash
 ./rmsd.py rmsd1.xvg rmsd2.xvg ...
+./rmsf.py rmsf1.xvg rmsf2.xvg ...
+./sasa.py sasa1.xvg sasa2.xvg ...
+./gyrate.py gyrate1.xvg gyrate2.xvg ...
 ```
 
 Each analysis script follows the same execution pattern.
