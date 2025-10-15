@@ -43,6 +43,23 @@ project-root/
 ```
 These .mdp files are authored specifically for the simulations of the Gamma variant and wild-type systems over 100 ns, and are located in the Gamma-variant-and-WT-100ns-MD-simulations repository.
 
-The `get_to_center.py` script performs three steps to remove periodic boundary conditions and center the molecule within the simulation box, preventing artificial jumps in RMSD analysis. To use it, simply copy the script into the simulation directory, ensuring the trajectory and topology files are named `md.xtc` and `md.tpr`, respectively. The output will be a new trajectory file named `final.xtc`.
+The `get_to_center.py` script provides a robust, automated wrapper around a three-step GROMACS preprocessing workflow designed to prepare molecular dynamics (MD) trajectories for downstream structural analysis. It is particularly useful for researchers working with periodic boundary conditions (PBC) and trajectory alignment, ensuring that the molecular system is physically coherent and analytically tractable across frames. The script is written for use in high-performance computing environments where GROMACS is compiled with MPI support (gmx_mpi), and it disables graphical output (GMX_NO_X11=1) to ensure compatibility with headless systems.
+The pipeline begins by validating the presence of two essential input files in the working directory: `md.xtc` (the trajectory file) and `md.tpr` (the portable binary run input file containing topology and simulation parameters). If either file is missing, the script halts with a clear error message, preserving reproducibility and preventing silent failures.
 
-The default centering coordinates are set to `-3 0 0`, but these can be modified as needed depending on the molecule’s position within the box.
+Once validated, the script executes three sequential GROMACS trjconv commands:
+
+Whole Molecule Reconstruction (-pbc whole) This step removes artifacts introduced by periodic boundary conditions by reconstructing molecules that may have been split across box boundaries. It ensures that each molecule is represented as a contiguous entity throughout the trajectory. The output is saved as `whole.xtc`.
+
+Molecule Centering and Compacting (-pbc mol -ur compact -trans) The second step centers the molecule in the simulation box and applies a compact representation of the unit cell. A translation vector (-3 0 0) is applied to shift the system, which can be useful for visualization or alignment purposes. The result is stored in `mol.xtc`.
+
+Trajectory Fitting (-fit rot+trans) Finally, the script performs rotational and translational fitting of the trajectory to a reference structure. This alignment is crucial for RMSD, RMSF, and other structural analyses, as it removes global motions and isolates internal conformational changes. The fitted structure is exported as `md.xtc`, a format compatible with most visualization and analysis tools.
+
+Output Files
+`whole.xtc`: Trajectory with molecules reconstructed across PBC boundaries.
+
+`mol.xtc`: Centered and compacted trajectory with applied translation.
+
+`md.xtc`: Final fitted trajectory ready for structural and energetic analysis.
+
+Execution Notes
+All the programs use gmx_mpi but can be easily adapted to run with `gmx`.
