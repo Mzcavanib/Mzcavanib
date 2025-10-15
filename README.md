@@ -55,11 +55,13 @@ Molecule Centering and Compacting (-pbc mol -ur compact -trans) The second step 
 Trajectory Fitting (-fit rot+trans) Finally, the script performs rotational and translational fitting of the trajectory to a reference structure. This alignment is crucial for RMSD, RMSF, and other structural analyses, as it removes global motions and isolates internal conformational changes. The fitted structure is exported as `md.xtc`, a format compatible with most visualization and analysis tools.
 
 Output Files
-`whole.xtc`: Trajectory with molecules reconstructed across PBC boundaries.
 
-`mol.xtc`: Centered and compacted trajectory with applied translation.
+- `whole.xtc`: Trajectory with molecules reconstructed across PBC boundaries.
 
-`md.xtc`: Final fitted trajectory ready for structural and energetic analysis.
+- `mol.xtc`: Centered and compacted trajectory with applied translation.
+
+- `md.xtc`: Final fitted trajectory ready for structural and energetic analysis.
 
 Execution Notes
+
 All the programs use gmx_mpi but can be easily adapted to run with `gmx`.
