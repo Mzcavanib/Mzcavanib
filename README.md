@@ -49,11 +49,17 @@ The pipeline begins by validating the presence of two essential input files in t
 
 Once validated, the script executes three sequential GROMACS trjconv commands:
 
-Whole Molecule Reconstruction (-pbc whole) This step removes artifacts introduced by periodic boundary conditions by reconstructing molecules that may have been split across box boundaries. It ensures that each molecule is represented as a contiguous entity throughout the trajectory. The output is saved as `whole.xtc`.
+Whole Molecule Reconstruction (-pbc whole) 
 
-Molecule Centering and Compacting (-pbc mol -ur compact -trans) The second step centers the molecule in the simulation box and applies a compact representation of the unit cell. A translation vector (-3 0 0) is applied to shift the system, which can be useful for visualization or alignment purposes. The result is stored in `mol.xtc`.
+This step removes artifacts introduced by periodic boundary conditions by reconstructing molecules that may have been split across box boundaries. It ensures that each molecule is represented as a contiguous entity throughout the trajectory. The output is saved as `whole.xtc`.
 
-Trajectory Fitting (-fit rot+trans) Finally, the script performs rotational and translational fitting of the trajectory to a reference structure. This alignment is crucial for RMSD, RMSF, and other structural analyses, as it removes global motions and isolates internal conformational changes. The fitted structure is exported as `md.xtc`, a format compatible with most visualization and analysis tools.
+Molecule Centering and Compacting (-pbc mol -ur compact -trans) 
+
+The second step centers the molecule in the simulation box and applies a compact representation of the unit cell. A translation vector (-3 0 0) is applied to shift the system, which can be useful for visualization or alignment purposes. The result is stored in `mol.xtc`.
+
+Trajectory Fitting (-fit rot+trans) 
+
+Finally, the script performs rotational and translational fitting of the trajectory to a reference structure. This alignment is crucial for RMSD, RMSF, and other structural analyses, as it removes global motions and isolates internal conformational changes. The fitted structure is exported as `md.xtc`, a format compatible with most visualization and analysis tools.
 
 Output Files
 
