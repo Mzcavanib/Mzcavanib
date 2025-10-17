@@ -55,7 +55,7 @@ This step removes artifacts introduced by periodic boundary conditions by recons
 
 2. Molecule Centering and Compacting (-pbc mol -ur compact -trans) 
 
-The second step centers the molecule in the simulation box and applies a compact representation of the unit cell. A translation vector (-3 0 0) is applied to shift the system, which can be useful for visualization or alignment purposes. The result is stored in `mol.xtc`.
+The second step centers the molecule in the simulation box and applies a compact representation of the unit cell. A modifiying translation vector is applied to shift the system, which can be useful for visualization or alignment purposes. The result is stored in `mol.xtc`.
 
 3. Trajectory Fitting (-fit rot+trans) 
 
