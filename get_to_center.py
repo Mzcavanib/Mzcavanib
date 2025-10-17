@@ -34,16 +34,27 @@ def run_gromacs_pipeline():
     cmd1 = f"echo 1 | gmx_mpi trjconv -f {input_xtc} -s {tpr_file} -pbc whole -o whole.xtc"
     run_command(cmd1, "Paso 1: reconstruyendo molécula completa con -pbc whole")
 
-    # Paso 2: compactar y trasladar molécula
-    cmd2 = f"echo 1 | gmx_mpi trjconv -f whole.xtc -s {tpr_file} -pbc mol -ur compact -trans -3 0 0 -o mol.xtc"
-    run_command(cmd2, "Paso 2: compactando y trasladando molécula con -pbc mol -ur compact -trans")
+    # Paso 2: solicitar valores de traslación
+    try:
+        x_trans = float(input("Ingresa el valor de traslación en x (ej. -3.0): "))
+        y_trans = float(input("Ingresa el valor de traslación en y (ej. 0.0): "))
+        z_trans = float(input("Ingresa el valor de traslación en z (ej. 0.0): "))
+    except ValueError:
+        print("Error: Los valores deben ser números reales.")
+        sys.exit(1)
+
+    # Paso 2: compactar y trasladar molécula con valores ingresados
+    cmd2 = (
+        f"echo 1 | gmx_mpi trjconv -f whole.xtc -s {tpr_file} "
+        f"-pbc mol -ur compact -trans {x_trans} {y_trans} {z_trans} -o mol.xtc"
+    )
+    run_command(cmd2, f"Paso 2: compactando y trasladando molécula con -trans {x_trans} {y_trans} {z_trans}")
 
     # Paso 3: ajustar trayectoria
     cmd3 = f"echo 3 1 | gmx_mpi trjconv -f mol.xtc -s {tpr_file} -fit rot+trans -o md.pdb"
     run_command(cmd3, "Paso 3: ajustando trayectoria con -fit rot+trans")
 
-    print("\n Proceso finalizado correctamente. Puedes continuar con el análisis de 'md.pdb'.")
+    print("\nProceso finalizado correctamente. Puedes continuar con el análisis de 'md.pdb'.")
 
 if __name__ == "__main__":
     run_gromacs_pipeline()
-
