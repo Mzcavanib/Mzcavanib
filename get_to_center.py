@@ -51,7 +51,7 @@ def run_gromacs_pipeline():
     run_command(cmd2, f"Paso 2: compactando y trasladando molécula con -trans {x_trans} {y_trans} {z_trans}")
 
     # Paso 3: ajustar trayectoria
-    cmd3 = f"echo 3 1 | gmx_mpi trjconv -f mol.xtc -s {tpr_file} -fit rot+trans -o md.pdb"
+    cmd3 = f"echo 3 1 | gmx_mpi trjconv -f mol.xtc -s {tpr_file} -fit rot+trans -o final.xtc"
     run_command(cmd3, "Paso 3: ajustando trayectoria con -fit rot+trans")
 
     print("\nProceso finalizado correctamente. Puedes continuar con el análisis de 'md.pdb'.")
