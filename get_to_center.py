@@ -54,7 +54,7 @@ def run_gromacs_pipeline():
     cmd3 = f"echo 3 1 | gmx_mpi trjconv -f mol.xtc -s {tpr_file} -fit rot+trans -o final.xtc"
     run_command(cmd3, "Paso 3: ajustando trayectoria con -fit rot+trans")
 
-    print("\nProceso finalizado correctamente. Puedes continuar con el análisis de 'md.pdb'.")
+    print("\nProceso finalizado correctamente. Puedes continuar con el análisis de 'final.xtc'.")
 
 if __name__ == "__main__":
     run_gromacs_pipeline()
