@@ -55,6 +55,15 @@ gs = fig.add_gridspec(1, 2, width_ratios=[4, 1])
 ax_main = fig.add_subplot(gs[0])
 ax_hist = fig.add_subplot(gs[1], sharey=ax_main)
 
+# Etiquetas para la leyenda
+labels = [
+    "WT",
+    "Alpha",
+    "Gamma",
+    "Delta",
+    "Omicron BA.1"
+]
+
 for i, archivo in enumerate(archivos):
     if not os.path.isfile(archivo):
         print(f"Archivo no encontrado: {archivo}")
@@ -68,7 +77,7 @@ for i, archivo in enumerate(archivos):
     color = colors[i % len(colors)]  # uso cíclico de paleta optimizada
 
     # Curva original con transparencia
-    ax_main.plot(tiempo_ns, rmsd_angstrom, color=color, alpha=0.3)
+    ax_main.plot(tiempo_ns, rmsd_angstrom, color=color, alpha=0.3, label=labels[i] if i < len(labels) else f"Entrada {i+1}")
 
     # Línea suavizada más gruesa
     degree = 120
@@ -93,6 +102,9 @@ ax_main.grid(True)
 ax_hist.set_xlabel("Frecuencia", fontsize=12)
 ax_hist.set_xlim(left=0)
 ax_hist.tick_params(labelleft=False)
+
+# Leyenda en esquina inferior derecha
+ax_main.legend(loc="lower right", fontsize=10, frameon=True)
 
 plt.show()
 
