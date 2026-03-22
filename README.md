@@ -73,10 +73,7 @@ Execution Notes
 
 All the programs use `gmx_mpi` but can be easily adapted to run with `gmx`.
 
-The program rmsd_prom_error.py shows the error or uncertainty associated with the average RMSD calculation for a particular protein throughout the molecular dynamics simulation. It is executed with files named as rmsd*.xvg in the same directory.
+The program `rmsd_prom_error.py` shows the error or uncertainty associated with the average RMSD calculation for a particular protein throughout the molecular dynamics simulation. It is executed with files named as `rmsd*.xvg` in the same directory.
 
-In the case of the program rmsf_prom.py, it can serve as a search tool for the RMSF of each specific residue in a particular rmsf*.xvg file, and it requires execution in the form:
-
-bash
-python3 rmsf_prom.py rmsf*.xvg rmsf*.xvg rmsf*.xvg #res #res
-Additionally, it calculates the average RMSF across multiple simulations if simulations 1, 2, 3, etc. are repeated, as long as they are named in different .xvg files.
+In the case of the program rmsf_prom.py, it can serve as a search tool for the RMSF of each specific residue or multiple residues in a particular `rmsf*.xvg` file or files, and it requires execution in the form: `python3 rmsf_prom.py rmsf*.xvg rmsf*.xvg rmsf*.xvg #res #res`
+Additionally, it calculates the average RMSF across multiple simulations if simulations 1, 2, 3, etc. are repeated, as long as they are named in different `.xvg` files.
