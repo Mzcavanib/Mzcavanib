@@ -15,7 +15,7 @@ All scripts are executed using Python 3 from the Linux terminal with a consisten
 ./gyrate.py gyrate1.xvg gyrate2.xvg ...
 ```
 
-Each analysis script follows the same execution pattern. The legend can be adjusted depending on the dataset used.
+Each analysis script follows the same execution pattern. The legend can be corrected based on the dataset applied.
 
 The `md.py` script automates the molecular dynamics setup in two main stages: selection of force field and water model, followed by ion addition via `gmx genion`, including solvent specification. The simulation box is cubic, with a 2 Å buffer between the molecule and the nearest box face.
 
