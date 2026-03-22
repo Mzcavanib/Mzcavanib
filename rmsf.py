@@ -59,7 +59,7 @@ def main():
         plt.plot(x, y, label=etiqueta, color=color, linewidth=1.5)
 
     plt.xlabel("Residuo", fontsize=12)
-    plt.ylabel("RMSF (Å)", fontsize=12)
+    plt.ylabel("RMSF [Å]", fontsize=12)
     plt.title("Comparación de fluctuaciones RMSF", fontsize=14)
     plt.legend()
     plt.grid(True, linestyle='--', alpha=0.5)
