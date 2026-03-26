@@ -1,46 +1,45 @@
 #!/usr/bin/env python3
 import sys
 
-def buscar_rmsd(archivo, tiempos_ns):
-    resultados = {}
-    with open(archivo) as f:
-        for linea in f:
-            if linea.startswith(("#", "@")):
+def search_rmsd(file, times_ns):
+    results = {}
+    with open(file) as f:
+        for line in f:
+            if line.startswith(("#", "@")):
                 continue
-            partes = linea.split()
-            if len(partes) < 2:
+            parts = line.split()
+            if len(parts) < 2:
                 continue
             try:
-                tiempo_ps = float(partes[0])        # tiempo en ps
-                rmsd_nm = float(partes[1])          # RMSD en nm
+                time_ps = float(parts[0])        # time in ps
+                rmsd_nm = float(parts[1])        # RMSD in nm
 
-                tiempo_ns = tiempo_ps / 1000.0      # convertir a ns
-                rmsd_A = rmsd_nm * 10.0             # convertir a Å
+                time_ns = time_ps / 1000.0       # convert to ns
+                rmsd_A = rmsd_nm * 10.0          # convert to Å
 
-                # comparación con los tiempos pedidos (en ns)
-                for t in tiempos_ns:
-                    if abs(tiempo_ns - t) < 1e-6:   # tolerancia por flotantes
-                        resultados[t] = rmsd_A
+                # comparison with requested times (in ns)
+                for t in times_ns:
+                    if abs(time_ns - t) < 1e-6:  # floating-point tolerance
+                        results[t] = rmsd_A
             except ValueError:
                 continue
-    return resultados
+    return results
 
 def main():
     if len(sys.argv) < 3:
-        print("Uso: python3 buscar_rmsd.py archivo.xvg tiempo1 tiempo2 ...")
+        print("Usage: python3 search_rmsd.py file.xvg time1 time2 ...")
         sys.exit(1)
 
-    archivo = sys.argv[1]
-    tiempos_ns = [float(t) for t in sys.argv[2:]]
+    file = sys.argv[1]
+    times_ns = [float(t) for t in sys.argv[2:]]
 
-    resultados = buscar_rmsd(archivo, tiempos_ns)
+    results = search_rmsd(file, times_ns)
 
-    for t in tiempos_ns:
-        if t in resultados:
-            print(f"Tiempo {t:.3f} ns | RMSD {resultados[t]:.4f} Å")
+    for t in times_ns:
+        if t in results:
+            print(f"Time {t:.3f} ns | RMSD {results[t]:.4f} Å")
         else:
-            print(f"Tiempo {t:.3f} ns | No encontrado en {archivo}")
+            print(f"Time {t:.3f} ns | Not found in {file}")
 
 if __name__ == "__main__":
     main()
-
