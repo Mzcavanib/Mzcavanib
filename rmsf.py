@@ -24,10 +24,8 @@ def main():
 
     files = sys.argv[1:]
 
-    # Fixed labels for the first five files
     fixed_labels = ["WT", "Alpha", "Gamma", "Delta", "Omicron BA.1"]
 
-    # Optimized palette for overlay and accessibility
     colors = [
         (31/255, 119/255, 180/255),  # Deep blue
         (214/255, 39/255, 40/255),   # Crimson red    
@@ -56,11 +54,15 @@ def main():
             label = os.path.splitext(os.path.basename(file))[0]
 
         color = colors[i % len(colors)]
-        plt.plot(x, y, label=label, color=color, linewidth=1.5)
+        plt.plot(x, y, label=label, color=color, linewidth=2)
 
-    plt.xlabel("Residue", fontsize=12)
-    plt.ylabel("RMSF [Å]", fontsize=12)
-    plt.title("RMSF fluctuations comparison", fontsize=14)
+    plt.rcParams['font.family'] = 'serif'
+    plt.xlabel("Residuo", fontsize=20, labelpad=10)
+    plt.ylabel("RMSF [Å]", fontsize=20, labelpad=10)
+    #plt.title("RMSF fluctuations comparison", fontsize=14)
+    plt.tick_params(axis='both', which='major', labelsize=15)
+    plt.rcParams['xtick.labelsize'] = 15
+    plt.rcParams['ytick.labelsize'] = 15
     plt.legend()
     plt.grid(True, linestyle='--', alpha=0.5)
     plt.tight_layout()
