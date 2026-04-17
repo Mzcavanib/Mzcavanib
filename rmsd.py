@@ -28,14 +28,14 @@ def get_column(data, col):
     """Extract a specific column as a float array."""
     return np.array([float(row[col]) for row in data])
 
-# Input validation
+
 if len(sys.argv) < 2:
     print("Usage: ./plot.py file1.xvg file2.xvg ...")
     sys.exit(1)
 
 files = sys.argv[1:]
 
-# Colors for overlay and accessibility
+
 colors = [
     (31/255, 119/255, 180/255),  # Deep blue
     (214/255, 39/255, 40/255),   # Crimson red    
@@ -49,13 +49,12 @@ colors = [
     (188/255, 189/255, 34/255)   # Golden yellow
 ]
 
-# Using constrained_layout to avoid conflicts with tight_layout
+
 fig = plt.figure(figsize=(10, 6), constrained_layout=True)
 gs = fig.add_gridspec(1, 2, width_ratios=[4, 1])
 ax_main = fig.add_subplot(gs[0])
 ax_hist = fig.add_subplot(gs[1], sharey=ax_main)
 
-# Labels for the legend
 labels = [
     "WT",
     "Alpha",
@@ -76,34 +75,36 @@ for i, file in enumerate(files):
     rmsd_angstrom = rmsd_nm * 10.0
     color = colors[i % len(colors)]  # cyclic use of optimized palette
 
-    # Original curve with transparency
     ax_main.plot(time_ns, rmsd_angstrom, color=color, alpha=0.3, label=labels[i] if i < len(labels) else f"Input {i+1}")
 
-    # Smoothed thicker line
     degree = 120
     if len(rmsd_angstrom) > degree * 2:
         rmsd_smooth = smooth_gaussian(rmsd_angstrom, degree)
         time_smooth = time_ns[degree:(-1)*(degree-1)]
         ax_main.plot(time_smooth, rmsd_smooth, color=color, linewidth=1.5)
 
-    # KDE histogram from 20 ns onwards
     mask_20ns = time_ns >= 20.0
     rmsd_post20 = rmsd_angstrom[mask_20ns]
     kde = gaussian_kde(rmsd_post20)
     rmsd_range = np.linspace(min(rmsd_post20), max(rmsd_post20), 500)
     density = kde(rmsd_range)
-    ax_hist.plot(density, rmsd_range, color=color, linewidth=2)
+    ax_hist.plot(density, rmsd_range, color=color, linewidth=3)
 
-# Axes and aesthetics
-ax_main.set_xlabel("Time [ns]", fontsize=12)
-ax_main.set_ylabel("RMSD [Å]", fontsize=12)
+plt.tick_params(axis='both', which='major', labelsize=20)
+plt.rcParams['font.family'] = 'serif'
+
+ax_main.set_xlabel("Tiempo [ns]", fontsize=20, labelpad=10)
+ax_main.set_ylabel("RMSD [Å]", fontsize=20, labelpad=10)
+ax_main.set_xticklabels(ax_main.get_xticks(), fontsize=20)
+ax_main.set_yticklabels(ax_main.get_yticks(), fontsize=20)
 ax_main.grid(True)
+plt.tick_params(axis='both', which='major', labelsize=20)
+plt.rcParams['font.family'] = 'serif'
 
-ax_hist.set_xlabel("Frequency", fontsize=12)
+#ax_hist.set_xlabel("Frecuencia", fontsize=25, labelpad=10)
 ax_hist.set_xlim(left=0)
 ax_hist.tick_params(labelleft=False)
 
-# Legend in bottom right corner
 ax_main.legend(loc="lower right", fontsize=10, frameon=True)
 
 plt.show()
